@@ -1,0 +1,21 @@
+version = "1.0"
+
+[metadata]
+author_name = "Xiaohan Song"
+author_email = "songxiaohan@ucla.edu"
+difficulty = "hard"
+difficulty_explanation = "The task requires turning a structured advertisement specification into a coherent short-form video, then producing deterministic local evaluation artifacts that reflect semantic alignment and reference fidelity."
+category = "multimedia"
+tags = ["video-generation", "advertising", "reconstruction", "multimodal", "evaluation"]
+
+[verifier]
+timeout_sec = 900.0
+
+[agent]
+timeout_sec = 900.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 4096
+storage_mb = 10240
