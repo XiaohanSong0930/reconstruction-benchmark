@@ -8,11 +8,30 @@ import re
 import subprocess
 from typing import Any, Dict, List, Sequence
 
-from .tools import _probe_video_duration
-
-
 def _run(cmd: Sequence[str]) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+
+
+def _probe_video_duration(video_path: str) -> float:
+    cmd = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        video_path,
+    ]
+    proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False)
+    if proc.returncode != 0:
+        stderr = (proc.stderr or "").strip()
+        stdout = (proc.stdout or "").strip()
+        raise RuntimeError(stderr or stdout or f"ffprobe failed for {video_path}")
+    try:
+        return float((proc.stdout or "0").strip())
+    except ValueError as exc:
+        raise RuntimeError(f"Invalid ffprobe duration output for {video_path}: {proc.stdout!r}") from exc
 
 
 def _extract_rgb_frame(video_path: str, timestamp_sec: float, width: int = 32, height: int = 32) -> bytes:

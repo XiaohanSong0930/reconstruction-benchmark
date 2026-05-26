@@ -27,6 +27,7 @@ RUN python -m pip install \
     google-genai==1.16.1 \
     pillow==10.4.0 \
     timm==1.0.15 \
+    einops==0.8.0 \
     ftfy==6.3.1 \
     regex==2024.11.6 \
     transformers==4.46.3 \
